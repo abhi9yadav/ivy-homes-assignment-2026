@@ -2,10 +2,6 @@
 
 A modern, responsive real estate web application for Chennai featuring property listings, rentals, projects, and interactive maps.
 
-## 🌟 Live Demo
-
-**Demo URL**: [Add your deployed URL here]
-
 ## 🎯 Features
 
 - **3,759 Property Listings** - Browse properties for sale
@@ -35,12 +31,7 @@ A modern, responsive real estate web application for Chennai featuring property 
 
 ### Installation
 
-1. Clone the repository:
-```bash
-git clone <your-repo-url>
-cd ivy-homes-frontend
-```
-
+1. Clone the repository
 2. Install dependencies:
 ```bash
 npm install
@@ -57,10 +48,10 @@ VITE_API_KEY=your_api_key_here
 npm run dev
 ```
 
-5. Open http://localhost:5174 in your browser
+5. Open http://localhost:5173 in your browser
 
 ### Demo Credentials
-- **Email**: demo1@ivy.homes
+- **Email**: demo2@ivy.homes
 - **Password**: 0c77c313b3
 
 ## 📦 Build for Production
@@ -73,19 +64,15 @@ The build output will be in the `dist/` folder.
 
 ## 🌐 Deployment
 
-### Vercel
-```bash
-npm i -g vercel
-vercel --prod
-```
+### Deploy to Vercel
+1. Push code to GitHub
+2. Import project on [vercel.com](https://vercel.com)
+3. Set environment variables:
+   - `VITE_API_BASE_URL` = `https://solve.ivy.homes`
+   - `VITE_API_KEY` = `your_api_key`
+4. Deploy
 
-### Netlify
-1. Run `npm run build`
-2. Drag the `dist/` folder to Netlify dashboard
-
-**Important**: Set environment variables in your deployment platform:
-- `VITE_API_BASE_URL`
-- `VITE_API_KEY`
+Vercel will auto-detect Vite and configure everything.
 
 ## 📱 Features Walkthrough
 
@@ -178,16 +165,7 @@ https://solve.ivy.homes
 ## 🐛 Known Issues
 
 - Similar listings feature pending backend implementation
-- Analytics dashboard pending backend endpoint
 - Some project detail endpoints return 404
-
-## 📄 License
-
-This project was created as part of the Ivy Homes assignment.
-
-## 👨‍💻 Author
-
-**Abhinav Yadav**
 
 ---
 
