@@ -420,7 +420,7 @@
 
 @media (max-width: 768px) {
   /* On mobile: sidebar moves to top as a scrollable horizontal strip */
-  .pageRoot { grid-template-columns: 1fr; gap: 0; }
+  .pageRoot { grid-template-columns: 1fr; gap: 0; padding-top: 12px; }
 
   .sidebar {
     position: static;
@@ -431,14 +431,52 @@
     border-radius: var(--r);
     margin-bottom: 16px;
   }
+  
+  .sidebarHead { padding: 12px 14px; }
+  .sidebarTitle { font-size: 0.78rem; }
+  .resetBtn { font-size: 0.68rem; padding: 4px 8px; }
+  
+  .filterBlock { padding: 12px 14px; }
+  .filterLabel { font-size: 0.6rem; }
+  
   /* Collapse locality list to horizontal scroll on mobile */
-  .localityList { flex-direction: row; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; gap: 4px; }
-  .localityItem { flex-shrink: 0; }
+  .localityList { 
+    flex-direction: row; 
+    overflow-x: auto; 
+    flex-wrap: nowrap; 
+    padding-bottom: 4px; 
+    gap: 4px; 
+    -webkit-overflow-scrolling: touch;
+  }
+  .localityItem { flex-shrink: 0; font-size: 0.75rem; padding: 6px 9px; }
+  .localityCount { font-size: 0.65rem; }
 
-  .topBar { top: 60px; }
-  .cardGrid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .topBar { 
+    top: 60px; 
+    padding: 8px 0;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .resultCount { font-size: 0.75rem; }
+  .toolBtn { height: 30px; padding: 0 10px; font-size: 0.75rem; }
+  .viewToggle { display: none; } /* Hide view toggle on mobile */
+  
+  .cardGrid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  
+  /* Make chip grids more compact */
+  .chipGrid { gap: 4px; }
+  .chip { padding: 4px 10px; font-size: 0.72rem; }
+  
+  /* Price presets compact */
+  .pricePresets { gap: 4px; }
+  .presetChip { font-size: 0.68rem; padding: 3px 8px; }
+  
+  /* Search input smaller */
+  .searchInput { height: 32px; font-size: 0.75rem; }
 }
 
 @media (max-width: 480px) {
-  .cardGrid { grid-template-columns: 1fr; }
+  .cardGrid { grid-template-columns: 1fr; gap: 10px; }
+  .topBarRight { flex-wrap: wrap; }
+  .resultCount { width: 100%; margin-bottom: 4px; }
 }
