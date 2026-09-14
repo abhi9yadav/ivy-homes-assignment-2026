@@ -27,6 +27,13 @@ async function handleRes(res) {
     const err = await res.json().catch(() => ({}))
     const detail = err.detail
 
+    // If token expired, clear session and redirect to login
+    if (res.status === 401) {
+      sessionStorage.clear()
+      window.location.href = '/login'
+      throw new Error('Session expired. Please login again.')
+    }
+
     throw new Error(
       typeof detail === 'string'
         ? detail

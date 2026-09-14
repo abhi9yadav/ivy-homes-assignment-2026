@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, useEffect } from 'react'
-import { login as apiLogin } from './api.js'
+import { login as apiLogin, refreshToken as apiRefreshToken } from './api.js'
 
 const AuthContext = createContext(null)
 
@@ -31,8 +31,30 @@ export function AuthProvider({ children }) {
     sessionStorage.removeItem(USER_KEY)
   }, [])
 
+  const refreshAccessToken = useCallback(async () => {
+    try {
+      const refreshTok = sessionStorage.getItem(REFRESH_KEY)
+      if (!refreshTok) {
+        logout()
+        return null
+      }
+
+      const data = await apiRefreshToken(refreshTok)
+      setToken(data.access_token)
+      sessionStorage.setItem(TOKEN_KEY, data.access_token)
+      if (data.refresh_token) {
+        sessionStorage.setItem(REFRESH_KEY, data.refresh_token)
+      }
+      return data.access_token
+    } catch (error) {
+      console.error('Token refresh failed:', error)
+      logout()
+      return null
+    }
+  }, [logout])
+
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, isAuthenticated: !!token }}>
+    <AuthContext.Provider value={{ token, user, login, logout, refreshAccessToken, isAuthenticated: !!token }}>
       {children}
     </AuthContext.Provider>
   )
