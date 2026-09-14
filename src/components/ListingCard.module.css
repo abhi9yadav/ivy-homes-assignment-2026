@@ -1,0 +1,374 @@
+/* ════════════════════════════════════════
+   BASE CARD — Grid View
+════════════════════════════════════════ */
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-1);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  text-decoration: none;
+  transition: box-shadow var(--t-slow), transform var(--t-slow), border-color var(--t);
+  animation: fadeUp 0.4s var(--t) both;
+  will-change: transform;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(28,69,50,.12);
+  border-color: rgba(45,106,79,.28);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Image (grid) ── */
+.imgWrap {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: var(--surface-2);
+  flex-shrink: 0;
+}
+
+/* All images inside the wrap are absolutely stacked */
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Default: visible, no animation */
+.imgFadeIn {
+  animation: imgIn 0.5s ease both;
+  z-index: 1;
+}
+.imgFadeOut {
+  animation: imgOut 0.5s ease both;
+  z-index: 0;
+}
+
+@keyframes imgIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes imgOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* When no rotation started, just show the image normally */
+.imgWrap .img:not(.imgFadeIn):not(.imgFadeOut) {
+  position: relative;
+  animation: none;
+  opacity: 1;
+}
+
+/* Badges on image */
+.imgTop {
+  position: absolute;
+  top: 10px; left: 10px;
+  display: flex; gap: 5px; flex-wrap: wrap;
+  z-index: 2;
+}
+.liveBadge, .offBadge, .verBadge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.66rem; font-weight: 700;
+  padding: 3px 8px; border-radius: var(--r-full);
+  letter-spacing: .02em; backdrop-filter: blur(8px);
+}
+.liveBadge { background: rgba(220,252,231,.92); color: var(--green); border: 1px solid rgba(22,101,52,.15); }
+.offBadge  { background: rgba(254,226,226,.92); color: var(--red);   border: 1px solid rgba(153,27,27,.15); }
+.verBadge  { background: rgba(219,234,254,.92); color: var(--blue);  border: 1px solid rgba(30,64,175,.15); }
+
+.liveDot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #16a34a;
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+/* ── Dot indicators (image position) ── */
+.dotRow {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.card:hover .dotRow,
+.compact:hover .dotRow { opacity: 1; }
+
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(255,255,255,.3);
+  transition: background 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+.dotActive {
+  background: #fff !important;
+  transform: scale(1.35);
+  border-color: rgba(255,255,255,.8);
+}
+
+.facingPill {
+  position: absolute; bottom: 10px; left: 10px; z-index: 2;
+  background: rgba(0,0,0,.5); color: rgba(255,255,255,.9);
+  font-size: 0.62rem; font-weight: 600; letter-spacing: .04em;
+  text-transform: capitalize; padding: 3px 8px;
+  border-radius: var(--r-full); backdrop-filter: blur(4px);
+}
+
+.viewBtn {
+  position: absolute; bottom: 10px; right: 10px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--ivy); color: #fff;
+  font-size: 0.68rem; font-weight: 700; padding: 4px 10px;
+  border-radius: var(--r-full);
+  opacity: 0; transform: translateY(5px);
+  transition: opacity var(--t), transform var(--t);
+}
+.card:hover .viewBtn { opacity: 1; transform: translateY(0); }
+
+.favBtn {
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(255,255,255,.85); backdrop-filter: blur(6px);
+  border: 1px solid rgba(0,0,0,.07);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-4); transition: all var(--t);
+}
+.favBtn:hover { background: #fff; color: #e11d48; transform: scale(1.1); }
+.favActive { color: #e11d48 !important; background: #fff1f2 !important; }
+
+/* ── Body (grid) ── */
+.body {
+  padding: 14px 16px 16px;
+  display: flex; flex-direction: column; flex: 1;
+}
+.priceRow { display: flex; align-items: baseline; gap: 7px; margin-bottom: 5px; }
+.price {
+  font-size: 1.2rem; font-weight: 800; color: var(--ink);
+  letter-spacing: -0.03em;
+  font-family: 'DM Serif Display', 'Playfair Display', Georgia, serif;
+}
+.ppsf {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 0.69rem; color: var(--ink-4); font-weight: 500;
+}
+.name {
+  font-size: 0.85rem; font-weight: 600; color: var(--ink-2);
+  margin-bottom: 3px; letter-spacing: -0.01em;
+  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+}
+.loc {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 0.73rem; color: var(--ink-4); margin-bottom: 10px;
+}
+.loc svg { flex-shrink: 0; color: var(--ivy-mid); }
+.specs {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 12px;
+}
+.spec { display: inline-flex; align-items: center; gap: 4px; font-size: 0.73rem; color: var(--ink-3); font-weight: 500; }
+.spec svg { color: var(--ink-5); }
+.specDot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-6); flex-shrink: 0; }
+.footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: auto; padding-top: 10px; border-top: 1px solid var(--surface-2);
+}
+.furnTag {
+  font-size: 0.65rem; font-weight: 700; padding: 3px 8px;
+  border-radius: var(--r-full); text-transform: capitalize; letter-spacing: .02em;
+}
+.meta { display: flex; align-items: center; gap: 7px; }
+.propType { font-size: 0.65rem; color: var(--ink-5); font-weight: 500; text-transform: capitalize; }
+.ago { font-size: 0.65rem; color: var(--ink-5); }
+
+
+/* ════════════════════════════════════════
+   COMPACT CARD — Full-width List View
+   Image: large left panel (~42% width)
+   Content: right panel with all details
+════════════════════════════════════════ */
+.compact {
+  flex-direction: row !important;
+  border-radius: var(--r-lg) !important;
+  align-items: stretch;
+  min-height: 200px;
+}
+.compact:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 16px 40px rgba(28,69,50,.13) !important;
+}
+
+/* Image — wide, fills left side */
+.compact .imgWrap {
+  width: 42% !important;
+  aspect-ratio: unset !important;
+  min-height: 200px;
+  flex-shrink: 0;
+  border-radius: 0 !important;
+  /* override the aspect-ratio based height from grid view */
+  position: relative;
+}
+
+/* In compact the img is absolute-positioned; need explicit height on wrap */
+.compact .imgWrap .img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* No scale-on-hover in compact (crossfade is the animation) */
+.compact:hover .img { transform: none; }
+
+/* Body — right side */
+.compact .body {
+  flex: 1;
+  min-width: 0;
+  padding: 20px 24px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Top row: price + fav button */
+.compactTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+/* Price bigger in list view */
+.compact .price {
+  font-size: 1.45rem !important;
+  line-height: 1.15;
+}
+.compact .ppsf {
+  font-size: 0.75rem !important;
+  margin-top: 2px;
+}
+.compact .priceRow {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 2px !important;
+  margin-bottom: 0 !important;
+}
+
+/* Name bigger */
+.compact .name {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 5px !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+/* Locality */
+.compact .loc {
+  font-size: 0.78rem !important;
+  margin-bottom: 14px !important;
+}
+
+/* Specs — bigger chips with background */
+.compact .specs {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin-bottom: 0 !important;
+}
+.compact .spec {
+  font-size: 0.78rem !important;
+  background: var(--surface-2) !important;
+  border: 1px solid var(--surface-border) !important;
+  border-radius: var(--r-sm) !important;
+  padding: 5px 10px !important;
+  gap: 5px !important;
+}
+.compact .specDot { display: none !important; }
+
+/* Footer */
+.compact .footer {
+  padding-top: 14px !important;
+  margin-top: 14px !important;
+  border-top: 1px solid var(--surface-2) !important;
+  align-items: center;
+}
+
+/* Inline fav (inside body) */
+.favBtnInline {
+  width: 34px; height: 34px;
+  border-radius: 50%; flex-shrink: 0;
+  background: var(--surface-2);
+  border: 1.5px solid var(--surface-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-5); transition: all var(--t);
+}
+.favBtnInline:hover { background: #fff1f2; color: #e11d48; border-color: #fecaca; }
+.favBtnInline.favActive { color: #e11d48 !important; background: #fff1f2 !important; border-color: #fecaca !important; }
+
+/* Hide these in compact — they're inside image normally */
+.compact .viewBtn,
+.compact .facingPill { display: none !important; }
+
+/* Keep fav on image in compact — remove the old one */
+.compact .favBtn {
+  display: flex !important;
+  position: absolute !important;
+  top: 10px; right: 10px;
+  backdrop-filter: blur(6px);
+}
+
+/* Small verified badge */
+.verSmall {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 0.65rem; font-weight: 700;
+  color: var(--blue); background: var(--blue-bg);
+  padding: 3px 7px; border-radius: var(--r-full);
+  border: 1px solid rgba(30,64,175,.12);
+}
+
+/* ── Responsive: stack on narrow screens ── */
+@media (max-width: 640px) {
+  .compact {
+    flex-direction: column !important;
+    min-height: unset !important;
+  }
+  .compact .imgWrap {
+    width: 100% !important;
+    min-height: unset !important;
+    aspect-ratio: 16/9 !important;
+  }
+  .compact .body {
+    padding: 14px 16px !important;
+  }
+  .compact .price { font-size: 1.15rem !important; }
+}
+
+/* propType pill shown in compact top-right */
+.propTypePill {
+  font-size: 0.7rem; font-weight: 600;
+  color: var(--ink-4);
+  background: var(--surface-2);
+  border: 1px solid var(--surface-border);
+  padding: 4px 10px; border-radius: var(--r-full);
+  white-space: nowrap; flex-shrink: 0;
+  text-transform: capitalize;
+}
+
+/* "via broker/agent" footer label */
+.postedBy {
+  font-size: 0.68rem; color: var(--ink-5);
+  text-transform: capitalize;
+}
