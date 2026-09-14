@@ -1,10 +1,18 @@
 // API client for solve.ivy.homes
 
-const BASE = '/api'
+// Use proxy in development, direct API in production
+const BASE = import.meta.env.DEV 
+  ? '/api' 
+  : import.meta.env.VITE_API_BASE_URL || 'https://solve.ivy.homes'
 
 function headers(token) {
   const h = {
     'Content-Type': 'application/json',
+  }
+
+  // Add API key header in production
+  if (!import.meta.env.DEV && import.meta.env.VITE_API_KEY) {
+    h['X-API-Key'] = import.meta.env.VITE_API_KEY
   }
 
   if (token) {
